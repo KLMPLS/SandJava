@@ -50,6 +50,33 @@ public class Board {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
+    public void addParticles(Particle a, int sizeOfAdding, int x, int y) {
+        if (sizeOfAdding == 1) {
+            if (isValid(x, y)) {
+                set(x, y, a.cloneWithRandomColor());
+            }
+            return;
+        } else {
+            // add around
+            int size = sizeOfAdding - 1;
+            for (int i = 0; i < size; i++) {
+                if (isValid(x + size - i, y - i)) {
+                    set(x + size - i, y - i, a.cloneWithRandomColor());
+                }
+                if (isValid(x - i, y - size + i)) {
+                    set(x - i, y - size + i, a.cloneWithRandomColor());
+                }
+                if (isValid(x - size + i, y + i)) {
+                    set(x - size + i, y + i, a.cloneWithRandomColor());
+                }
+                if (isValid(x + i, y + size - i)) {
+                    set(x + i, y + size - i, a.cloneWithRandomColor());
+                }
+            }
+            addParticles(a, size, x, y); // add inside
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

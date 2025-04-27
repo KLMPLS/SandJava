@@ -1,13 +1,12 @@
 package SandB;
 import java.util.Random;
 public class Sand extends Particle {
-    public Sand(int fallSpeed, int sandiness, Color color) {
-        super(fallSpeed, sandiness, color);
+    public Sand(int fallSpeed, int sandiness, Color color, String name, int colorRandomness) {
+        super(fallSpeed, sandiness, color, name, colorRandomness);
     }
     @Override
     public void update(Board board, int x, int y) {
-        if(board.isValid(x,y+1) && board.isEmpty(x, y+1)){
-            board.swap(x, y, x,y+1);
+        if(basicUpdate(board, x, y)){
             return;
         }
         else{
@@ -39,5 +38,10 @@ public class Sand extends Particle {
     @Override
     public String toString() {
         return "S";
+    }
+
+    @Override
+    public Particle cloneWithRandomColor() {
+        return new Sand(fallSpeed, sandiness, generateRandomColor(), name,colorRandomness );
     }
 }
